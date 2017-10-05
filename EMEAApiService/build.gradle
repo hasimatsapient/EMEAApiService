@@ -103,7 +103,23 @@ compile("org.springframework.boot:spring-boot-starter-web"){
         exclude module: 'logback'
         exclude module: 'spring-boot-starter-logging'
     }
+    compile("org.springframework.boot:spring-boot-starter-security"){
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
     
+    compile("org.springframework.security.oauth:spring-security-oauth2"){
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
     compile("commons-io:commons-io:2.4")
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'commons-logging:commons-logging:1.2'
@@ -126,6 +142,9 @@ compile("org.springframework.boot:spring-boot-starter-web"){
     testCompile 'com.mockrunner:mockrunner-jdbc:1.1.0'
     testCompile 'org.powermock:powermock-api-mockito:1.6.3'
     testCompile 'org.powermock:powermock-module-junit4:1.6.3'
+    
+    
+    
     
 }
 
