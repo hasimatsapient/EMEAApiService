@@ -1,0 +1,155 @@
+buildscript {
+    ext {
+        springBootVersion = '1.3.3.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "http://repo.spring.io/libs-snapshot" }
+    }
+    dependencies {
+    
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+    }
+}
+
+def springVersion = '4.2.3.RELEASE'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot' 
+apply plugin: 'war'
+apply plugin: 'application'
+configurations {
+    providedRuntime
+}
+
+
+jar {
+    baseName = 'emeaapiservice'
+    version = '0.0.1-SNAPSHOT'
+}
+war {
+    baseName = 'emeaapiservice'
+    version =  '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+compileJava.options.fork = true
+//compileJava.options.forkOptions.executable = 'C:/Program Files/Java/jdk1.8.0_65'
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-snapshot" }
+}
+/*
+configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
+}*/
+dependencies {
+//compile files("C:/Program Files/Java/jdk1.8.0_65/lib/tools.jar")
+    compile("com.h2database:h2:1.4.190")
+   compile("org.springframework.boot:spring-boot-starter-data-jpa"){
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
+compile("org.springframework.boot:spring-boot-starter-web"){
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile('org.springframework.boot:spring-boot-starter-jersey'){
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat"){
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile ("org.springframework.data:spring-data-oracle:1.1.0.RELEASE"){
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile ("org.springframework:spring-context:$springVersion"){
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile ("org.springframework:spring-jdbc:$springVersion"){
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
+    
+    compile("commons-io:commons-io:2.4")
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'commons-logging:commons-logging:1.2'
+    compile 'commons-collections:commons-collections:3.2.2'
+    compile "org.slf4j:slf4j-log4j12:1.7.13"
+    compile ("com.oracle:ojdbc6:11.2.0.3")
+    
+    testCompile('org.springframework.boot:spring-boot-starter-test') {
+        exclude module: 'log4j-slf4j-impl'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'jcl-over-slf4j'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'logback'
+        exclude module: 'spring-boot-starter-logging'
+    }
+    
+    testCompile 'junit:junit:4.12'
+   
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'com.mockrunner:mockrunner-jdbc:1.1.0'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.3'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.3'
+    
+}
+
+
+mainClassName = 'com.emea.Application'
+applicationDistribution.from('conf') {
+    into 'conf'
+}
+eclipse {
+    classpath {
+         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
+
+startScripts {
+    doLast {
+        unixScript.text=unixScript.text.replace('cd "$SAVED"', 'cd "$SAVED/.."')
+        unixScript.text=unixScript.text.replace('exec', '')
+        
+        windowsScript.text =  windowsScript.text.replace('set APP_HOME=%DIRNAME%..', 'set APP_HOME=.' + TextUtil.windowsLineSeparator + 'cd ..')
+    }
+}
