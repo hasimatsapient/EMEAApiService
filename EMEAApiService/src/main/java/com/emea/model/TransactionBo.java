@@ -1,5 +1,6 @@
 package com.emea.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -16,8 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Transaction")
-public class TransactionBo {
-    static final long serialVersionUID = 1L; 
+public class TransactionBo  {
     @Id
     @SequenceGenerator(name = "transaction_seq_GENERATOR", sequenceName = "transaction_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq_GENERATOR")
