@@ -54,6 +54,7 @@ dependencies {
         exclude module: 'log4j-over-slf4j'
         exclude module: 'logback'
         exclude module: 'spring-boot-starter-logging'
+        exclude module: 'org.hibernate:hibernate'
     }
 compile("org.springframework.boot:spring-boot-starter-web"){
         exclude module: 'log4j-slf4j-impl'
@@ -94,6 +95,7 @@ compile("org.springframework.boot:spring-boot-starter-web"){
         exclude module: 'log4j-over-slf4j'
         exclude module: 'logback'
         exclude module: 'spring-boot-starter-logging'
+        exclude module: 'org.hibernate:hibernate'
     }
     compile ("org.springframework:spring-jdbc:$springVersion"){
         exclude module: 'log4j-slf4j-impl'
@@ -154,6 +156,9 @@ compile("org.springframework.boot:spring-boot-starter-web"){
 mainClassName = 'com.emea.Application'
 applicationDistribution.from('conf') {
     into 'conf'
+}
+applicationDistribution.from('docs') {
+    into 'docs'
 }
 eclipse {
     classpath {

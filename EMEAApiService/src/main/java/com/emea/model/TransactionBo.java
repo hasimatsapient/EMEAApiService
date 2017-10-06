@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Transaction")
 public class TransactionBo {
-
+    static final long serialVersionUID = 1L; 
     @Id
     @SequenceGenerator(name = "transaction_seq_GENERATOR", sequenceName = "transaction_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq_GENERATOR")

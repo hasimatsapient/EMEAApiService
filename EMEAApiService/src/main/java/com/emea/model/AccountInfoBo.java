@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Account")
 public class AccountInfoBo {
+    static final long serialVersionUID = 1L; 
 
     @Id
     @SequenceGenerator(name = "account_info_seq_GENERATOR", sequenceName = "account_info_seq", allocationSize = 1)
