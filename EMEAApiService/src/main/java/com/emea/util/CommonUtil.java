@@ -79,12 +79,12 @@ public class CommonUtil {
      * @param properties
      */
     public static void initSpringProfile(Properties properties) {
-       
-        for (String propertyName : properties.stringPropertyNames()) {
-                String propertyValue = properties.getProperty(propertyName);
-                System.setProperty(propertyName, propertyValue);
-        }
-
+       if(properties!=null){
+           for (String propertyName : properties.stringPropertyNames()) {
+               String propertyValue = properties.getProperty(propertyName);
+               System.setProperty(propertyName, propertyValue);
+       }
+       }
     }
     
     /**
