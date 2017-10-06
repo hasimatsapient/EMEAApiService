@@ -18,6 +18,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot' 
 apply plugin: 'war'
+apply plugin: 'jacoco'
 apply plugin: 'application'
 configurations {
     providedRuntime
@@ -169,6 +170,16 @@ eclipse {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.12'
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination "${buildDir}/reports/coverage"
+    }
 }
 
 startScripts {
