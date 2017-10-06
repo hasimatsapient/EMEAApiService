@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +31,10 @@ public class AccountInfoController {
             .getLogger(AccountInfoController.class);
     private static final String ACCOUNT_NUMBER = "accountNumber";
     private static final String SORT_CODE = "sortCode";
+    
+    @Value("${github.users.url}")
+    String gitHubUrl;
+    
     @RequestMapping(value = "/accountdetails", method = RequestMethod.POST, headers = "Accept=application/json")
     public @ResponseBody Map getAccountDetails(@RequestBody Map accountInfoVo)
             throws ApplicationException {
@@ -67,6 +72,10 @@ public class AccountInfoController {
         }
 
         result.put("Transactions", accountInfo.getTransactions());
+        
+        result.put("ThirdpartyOutput", CommonUtil.getThirdPartyResponse(gitHubUrl));
+        
+        
 
         LOG.info("Finished executing getAccountDetails");
 

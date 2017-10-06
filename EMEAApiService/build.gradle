@@ -120,6 +120,8 @@ compile("org.springframework.boot:spring-boot-starter-web"){
         exclude module: 'logback'
         exclude module: 'spring-boot-starter-logging'
     }
+    
+    compile("org.apache.httpcomponents:httpclient:4.5")
     compile("commons-io:commons-io:2.4")
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'commons-logging:commons-logging:1.2'
