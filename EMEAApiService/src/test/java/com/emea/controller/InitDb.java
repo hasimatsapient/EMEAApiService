@@ -19,7 +19,6 @@ public class InitDb {
                server = Server.createTcpServer(params);
                server.start();
                flag=false;
-               System.out.println("db created");
            } catch (SQLException e) {
                e.printStackTrace();
            }
