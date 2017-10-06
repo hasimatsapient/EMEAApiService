@@ -1,5 +1,10 @@
 package com.emea.exception;
 
+/**
+ * Class to error in response.
+ * @author hmolla
+ *
+ */
 public class ErrorResponse {
 private int errorCode;
 private String message;

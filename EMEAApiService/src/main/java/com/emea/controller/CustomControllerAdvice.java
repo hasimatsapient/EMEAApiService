@@ -8,11 +8,21 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.emea.exception.ErrorResponse;
 
+/**
+ * Class to handle generic exception
+ * @author hmolla
+ *
+ */
 @ControllerAdvice
 public class CustomControllerAdvice {
     private static final Logger LOG = Logger
             .getLogger(CustomControllerAdvice.class);
 
+    /**
+     * Method to handle generic exception
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
 

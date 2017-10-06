@@ -30,6 +30,11 @@ import com.emea.dto.TransactionVo;
 import com.emea.model.AccountInfoBo;
 import com.emea.model.TransactionBo;
 
+/**
+ * This is a common utility class
+ * @author hmolla
+ *
+ */
 public class CommonUtil {
 	private static final String ERROR_OCCURED = "Error occurred";
     private static final String PATH_APP_PROPERTIES = "conf/application.properties";
@@ -38,6 +43,10 @@ public class CommonUtil {
     private static final String pattern = "yyyy-MM-dd";
     private static Logger LOG =   Logger.getLogger(CommonUtil.class);
 	
+    /**
+     * Method to load properties file.
+     * @return
+     */
     public static Properties loadApplicationProperties() {
         Properties properties = null;
         try {
@@ -65,6 +74,10 @@ public class CommonUtil {
         }
     }
     
+    /**
+     * Method to load properties
+     * @param properties
+     */
     public static void initSpringProfile(Properties properties) {
        
         for (String propertyName : properties.stringPropertyNames()) {
@@ -74,12 +87,22 @@ public class CommonUtil {
 
     }
     
+    /**
+     * Method to find a string is numeric or not.
+     * @param str
+     * @return
+     */
     public static boolean isNumericRegex(String str) {
         if (str == null)
             return false;
         return str.matches("-?\\d+");
     }
     
+    /**
+     * Method to convert Bo object to Vo object of account information
+     * @param accountInfoBo
+     * @return
+     */
     public static AccountInfoVo convertAccountInfoBoToVo(AccountInfoBo accountInfoBo){
         AccountInfoVo accountInfoVo = null;
         if(accountInfoBo!=null){
@@ -105,6 +128,11 @@ public class CommonUtil {
         return accountInfoVo;
     }
    
+    /**
+     * Method to convert Bo object to Vo object of Transaction
+     * @param transactionBo
+     * @return
+     */
     public static TransactionVo convertTransactionBoToVo(TransactionBo transactionBo){
         TransactionVo transactionVo = null;
         if(transactionBo!=null){
@@ -134,6 +162,11 @@ public class CommonUtil {
     }
     
     
+    /**
+     * Method to convert date to string
+     * @param date
+     * @return
+     */
     public static String convertDateToString(Date date){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         if(date!=null){
@@ -144,6 +177,11 @@ public class CommonUtil {
     } 
     
     
+    /**
+     * Method to fetch data from third party url.
+     * @param url
+     * @return
+     */
     public static String getThirdPartyResponse(String url){
         StringBuilder sb = new StringBuilder();
         if(StringUtils.isNotEmpty(url)){

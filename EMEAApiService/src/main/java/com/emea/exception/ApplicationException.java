@@ -1,5 +1,10 @@
 package com.emea.exception;
 
+/**
+ * Exception class for generic exception.
+ * @author hmolla
+ *
+ */
 public class ApplicationException extends Exception{
    
     public ApplicationException() {

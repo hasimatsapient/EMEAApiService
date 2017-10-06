@@ -8,12 +8,22 @@ import org.springframework.context.annotation.Configuration;
 
 import com.emea.util.ApplicationContextUtil;
 
+/**
+ * This is main class to initiate application loading.
+ * @author hmolla
+ * 
+ *
+ */
 @Configuration
 @SpringBootApplication
 @ComponentScan
 public class Application {
     private static final Logger LOG = Logger.getLogger(Application.class);
 
+    /**
+     * Main method to start application
+     * @param args
+     */
     public static void main(String[] args) {
         LOG.info("application started");
         ConfigurableApplicationContext configurableApplicationContext = null;

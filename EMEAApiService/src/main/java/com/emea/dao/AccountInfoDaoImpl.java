@@ -16,6 +16,11 @@ import org.springframework.stereotype.Component;
 import com.emea.controller.CustomControllerAdvice;
 import com.emea.model.AccountInfoBo;
 
+/**
+ * Class to fetch account information.
+ * @author hmolla
+ *
+ */
 @Component
 public class AccountInfoDaoImpl implements AccountInfoDao {
     private static final Logger LOG = Logger
@@ -25,6 +30,10 @@ public class AccountInfoDaoImpl implements AccountInfoDao {
     @PersistenceContext
     private EntityManager entityManager;
      
+    /* Method to get account information based on account number and sortcode
+     * (non-Javadoc)
+     * @see com.emea.dao.AccountInfoDao#getAccountInfoByAccountNumberAndSortCode(long, long)
+     */
     public AccountInfoBo getAccountInfoByAccountNumberAndSortCode(long accountNumber, long sortCode) {
         AccountInfoBo result = null;
         LOG.info("Started executing getAccountInfoByAccountNumberAndSortCode");

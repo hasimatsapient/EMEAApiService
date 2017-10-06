@@ -10,6 +10,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+/**
+ * Util class to initiate application.
+ * @author hmolla
+ *
+ */
 public class ApplicationContextUtil implements ApplicationContextAware{
 	private static final String LOG_FILE_PATH = "conf/log4j.properties";
 	private static final String APP_CONTEXT_PATH_STR = "app.context.file.path";
@@ -26,6 +31,10 @@ public class ApplicationContextUtil implements ApplicationContextAware{
 		return context;
 	}
 	
+	/**
+	 * Method to initiate application.
+	 * @throws SQLException
+	 */
 	public static void init() throws SQLException{
 	    
 	    CommonUtil.initSpringProfile(CommonUtil.loadApplicationProperties());

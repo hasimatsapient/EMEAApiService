@@ -21,6 +21,11 @@ import com.emea.exception.ErrorResponse;
 import com.emea.service.AccountInfoService;
 import com.emea.util.CommonUtil;
 
+/**
+ * Class to handle api service
+ * @author hmolla
+ *
+ */
 @RestController
 @EnableAutoConfiguration
 @RequestMapping("/emeaapiservice")
@@ -35,6 +40,12 @@ public class AccountInfoController {
     @Value("${github.users.url}")
     String gitHubUrl;
     
+    /**
+     * Method to get account details
+     * @param accountInfoVo
+     * @return
+     * @throws ApplicationException
+     */
     @RequestMapping(value = "/accountdetails", method = RequestMethod.POST, headers = "Accept=application/json")
     public @ResponseBody Map getAccountDetails(@RequestBody Map accountInfoVo)
             throws ApplicationException {

@@ -1,5 +1,10 @@
 package com.emea.exception;
 
+/**
+ * Exception class for account not found
+ * @author hmolla
+ *
+ */
 public class AccountNotFoundException extends Exception{
    
     public AccountNotFoundException() {
