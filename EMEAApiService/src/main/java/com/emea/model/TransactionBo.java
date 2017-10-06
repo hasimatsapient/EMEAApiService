@@ -1,6 +1,5 @@
 package com.emea.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;

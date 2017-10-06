@@ -2,9 +2,6 @@ package com.emea.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 //@JsonIgnoreProperties(value = { "accountNumber","sortCode" })
 public class AccountInfoVo {
     

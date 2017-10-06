@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNull;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.junit.Before;
@@ -17,7 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.emea.controller.InitDb;
-import com.emea.dao.AccountInfoDao;
 import com.emea.model.AccountInfoBo;
 import com.emea.util.CommonUtility;
 
@@ -40,14 +38,14 @@ public class AccountInfoDaoTest extends InitDb{
     
     @Test
     @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void getAccountInfoByAccountNumberAndSortCodeWithData() {   
+    public void testGetAccountInfoByAccountNumberAndSortCodeWithData() {   
         AccountInfoBo accountInfoBo= accountInfoDao.getAccountInfoByAccountNumberAndSortCode(1L, 122312);
         
         assertNotNull(accountInfoBo);
     }
     @Test
     @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void getAccountInfoByAccountNumberAndSortCodeWithNoData() {   
+    public void testGetAccountInfoByAccountNumberAndSortCodeWithNoData() {   
         AccountInfoBo accountInfoBo= accountInfoDao.getAccountInfoByAccountNumberAndSortCode(2L, 122312);
         
         assertNull(accountInfoBo);

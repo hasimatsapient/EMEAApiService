@@ -44,14 +44,14 @@ public class AccountInfoServiceTest extends InitDb{
     
     @Test
     @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void getAccountDetailsWithData() {   
+    public void testGetAccountDetailsWithData() {   
         AccountInfoVo accountInfoVo= accountInfoService.getAccountDetails(1L, 122312);
         
         assertNotNull(accountInfoVo);
     }
     @Test
     @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void getAccountDetailsWithOutData() {   
+    public void testGetAccountDetailsWithOutData() {   
         AccountInfoVo accountInfoVo= accountInfoService.getAccountDetails(2L, 122312);
         
         assertNull(accountInfoVo);

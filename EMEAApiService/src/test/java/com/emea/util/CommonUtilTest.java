@@ -32,37 +32,37 @@ public class CommonUtilTest {
         MockitoAnnotations.initMocks(this);
     }
     @Test
-    public void initSpringProfileWithProperties() {   
+    public void testInitSpringProfileWithProperties() {   
         Properties properties = new Properties();
         properties.put("test", "test");
         CommonUtil.initSpringProfile(properties);
         assertThat(System.getProperty("test"), equalToIgnoringCase("test"));
     }
     @Test
-    public void initSpringProfileWithNullProperties() {   
+    public void testInitSpringProfileWithNullProperties() {   
         
         CommonUtil.initSpringProfile(null);
     }
     @Test
-    public void initSpringProfileWithoutProperties() {   
+    public void testInitSpringProfileWithoutProperties() {   
         Properties properties = new Properties();
         CommonUtil.initSpringProfile(properties);
     }
     @Test
-    public void isNumericRegexWithString() {   
+    public void testIsNumericRegexWithString() {   
         
         assertFalse(CommonUtil.isNumericRegex("test") );
     }
     @Test
-    public void isNumericRegexWithNumeric() {   
+    public void testIsNumericRegexWithNumeric() {   
         assertTrue(CommonUtil.isNumericRegex("23") );
     }
     @Test
-    public void isNumericRegexWithNull() {   
+    public void testIsNumericRegexWithNull() {   
         assertFalse(CommonUtil.isNumericRegex(null) );
     }
     @Test
-    public void convertAccountInfoBoToVo() {   
+    public void testConvertAccountInfoBoToVo() {   
        // assertFalse(CommonUtil.isNumericRegex(null) );
         AccountInfoBo accountInfoBo=new AccountInfoBo();
         TransactionBo transactionBo = new TransactionBo();
@@ -76,13 +76,13 @@ public class CommonUtilTest {
         assertNotNull(accountInfoVo);
     }
     @Test
-    public void convertAccountInfoBoToVoWithNoAccount() {   
+    public void testConvertAccountInfoBoToVoWithNoAccount() {   
         
         AccountInfoVo accountInfoVo = CommonUtil.convertAccountInfoBoToVo(null);
         assertNull(accountInfoVo);
     }
     @Test
-    public void convertAccountInfoBoToVoWithNoTransaction() {   
+    public void testConvertAccountInfoBoToVoWithNoTransaction() {   
        // assertFalse(CommonUtil.isNumericRegex(null) );
         AccountInfoBo accountInfoBo=new AccountInfoBo();
        
@@ -95,39 +95,37 @@ public class CommonUtilTest {
         assertNull(accountInfoVo.getTransactions());
     }
     @Test
-    public void convertDateToString() {   
+    public void testConvertDateToString() {   
         Calendar c = Calendar.getInstance();
         c.set(Calendar.MONTH, 10);
         c.set(Calendar.DATE, 10);
         c.set(Calendar.YEAR, 2017);
         Date dt = c.getTime();
         String date = CommonUtil.convertDateToString(dt);
-       //2017-11-10
         assertThat(date, equalToIgnoringCase("2017-11-10"));
     }
     @Test
-    public void convertDateToStringWithNull() {   
+    public void testConvertDateToStringWithNull() {   
        
         assertNull( CommonUtil.convertDateToString(null));
        
     }
     @Test
-    public void getThirdPartyResponseWithNoUrl() {   
+    public void testGetThirdPartyResponseWithNoUrl() {   
        
         assertThat( CommonUtil.getThirdPartyResponse(null), equalToIgnoringCase(""));
        
     }
     @Test
-    public void getThirdPartyResponseWith() {   
+    public void testGetThirdPartyResponseWith() {   
        
         assertNotNull( CommonUtil.getThirdPartyResponse("https://api.github.com/users/hadley/orgs"));
        
     }
     @Test
-    public void readResourceAsString() {   
+    public void testGeadResourceAsString() {   
        
         assertNotNull( CommonUtil.readResourceAsString("conf/test.sql"));
        
     }
-   //readResourceAsString(String)
 }
