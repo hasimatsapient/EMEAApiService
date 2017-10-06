@@ -152,6 +152,7 @@ compile("org.springframework.boot:spring-boot-starter-web"){
     
     
     
+    
 }
 
 
@@ -171,6 +172,12 @@ eclipse {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.12'
+}
+
+test {
+    ignoreFailures = true
+    beforeTest { descriptor -> logger.lifecycle("Running $descriptor") }
+    jvmArgs += [ "-XX:MaxPermSize=512m" ]
 }
 
 jacocoTestReport {
