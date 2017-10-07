@@ -28,7 +28,7 @@ public class AccountInfoBo {
     UserBo user;*/
     
     
-    @OneToMany(targetEntity=TransactionBo.class, mappedBy = "accountInfo", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(targetEntity=TransactionBo.class, mappedBy = "accountInfo", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     Set<TransactionBo> transactionBos;
     
     

@@ -201,9 +201,12 @@ public class CommonUtil {
             
              try {
                   String line;
-              while((line= rd.readLine())!=null){
-                   sb.append(line);
-               }
+                  if(rd!=null){
+                      while((line= rd.readLine())!=null){
+                          sb.append(line);
+                      }
+                  }
+             
                
                
             } catch (IOException e) {
