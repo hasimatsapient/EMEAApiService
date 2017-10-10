@@ -53,6 +53,14 @@ public class CommonUtilTest {
         
         assertFalse(CommonUtil.isNumericRegex("test") );
     }
+    
+    @Test
+    public void testIsGetThirdPartyResponse() {   
+        
+        assertNotNull(CommonUtil.getThirdPartyResponse("https://api.github.com/users/hadley/orgs",1000) );
+    }
+    
+    
     @Test
     public void testIsNumericRegexWithNumeric() {   
         assertTrue(CommonUtil.isNumericRegex("23") );
@@ -113,13 +121,13 @@ public class CommonUtilTest {
     @Test
     public void testGetThirdPartyResponseWithNoUrl() {   
        
-        assertThat( CommonUtil.getThirdPartyResponse(null), equalToIgnoringCase(""));
+        assertThat( CommonUtil.getThirdPartyResponse(null,1000), equalToIgnoringCase(""));
        
     }
     @Test
-    public void testGetThirdPartyResponseWith() {   
+    public void testGetThirdPartyResponse() {   
        
-        assertNotNull( CommonUtil.getThirdPartyResponse("https://api.github.com/users/hadley/orgs"));
+        assertNotNull( CommonUtil.getThirdPartyResponse("https://api.github.com/users/hadley/orgs",1000));
        
     }
     @Test
@@ -127,5 +135,17 @@ public class CommonUtilTest {
        
         assertNotNull( CommonUtil.readResourceAsString("conf/test.sql"));
        
+    }
+    
+    @Test
+    public void testGeadResourceAsStringWithException() {   
+       
+        assertNull( CommonUtil.readResourceAsString("missingresource.txt"));
+       
+    }
+    
+    @Test
+    public void testLoadApplicationProperties() {
+        assertNotNull(CommonUtil.loadApplicationProperties());
     }
 }

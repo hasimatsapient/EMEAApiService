@@ -12,7 +12,6 @@ import javax.persistence.criteria.Root;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import com.emea.model.AccountInfoBo;
 import com.emea.model.User;
 
 /**

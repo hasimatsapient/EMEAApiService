@@ -19,6 +19,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -182,10 +184,13 @@ public class CommonUtil {
      * @param url
      * @return
      */
-    public static String getThirdPartyResponse(String url){
+    public static String getThirdPartyResponse(String url, int timeout){
         StringBuilder sb = new StringBuilder();
         if(StringUtils.isNotEmpty(url)){
             HttpClient client = new DefaultHttpClient();
+            HttpParams params = client.getParams();
+            HttpConnectionParams.setConnectionTimeout(params, timeout);
+            HttpConnectionParams.setSoTimeout(params, timeout);
             HttpGet request = new HttpGet(url);
             
               HttpResponse response;
@@ -193,25 +198,19 @@ public class CommonUtil {
             try {
                 response = client.execute(request);
                 rd = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
+                String line;
+                if(rd!=null){
+                    while((line= rd.readLine())!=null){
+                        sb.append(line);
+                    }
+                }
             } catch (ClientProtocolException e) {
                 LOG.error(ERROR_OCCURED, e);
             } catch (IOException e) {
                 LOG.error(ERROR_OCCURED, e);
             }
             
-             try {
-                  String line;
-                  if(rd!=null){
-                      while((line= rd.readLine())!=null){
-                          sb.append(line);
-                      }
-                  }
-             
-               
-               
-            } catch (IOException e) {
-                LOG.error(ERROR_OCCURED, e);
-            }
+           
               
         }
 

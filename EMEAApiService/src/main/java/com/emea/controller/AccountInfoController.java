@@ -37,8 +37,11 @@ public class AccountInfoController {
     private static final String ACCOUNT_NUMBER = "accountNumber";
     private static final String SORT_CODE = "sortCode";
     
-    @Value("${github.users.url}")
+    @Value("${github.users.url:}")
     String gitHubUrl;
+    
+    @Value("${github.users.url.timeout:1000}")
+    String connectionTimeOut;
     
     /**
      * Method to get account details
@@ -84,7 +87,7 @@ public class AccountInfoController {
 
         result.put("Transactions", accountInfo.getTransactions());
         
-        result.put("ThirdpartyOutput", CommonUtil.getThirdPartyResponse(gitHubUrl));
+        result.put("ThirdpartyOutput", CommonUtil.getThirdPartyResponse(gitHubUrl, Integer.valueOf(connectionTimeOut)));
         
         
 

@@ -14,26 +14,18 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Account")
+@Table(name = "Account")
 public class AccountInfoBo {
 
     @Id
     @SequenceGenerator(name = "account_info_seq_GENERATOR", sequenceName = "account_info_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_info_seq_GENERATOR")
     private Long id;
-    
-    /*
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    UserBo user;*/
-    
-    
-    @OneToMany(targetEntity=TransactionBo.class, mappedBy = "accountInfo", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+
+    @OneToMany(targetEntity = TransactionBo.class, mappedBy = "accountInfo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Set<TransactionBo> transactionBos;
-    
-    
-    
-    @Column(name="sort_code")
+
+    @Column(name = "sort_code")
     long sortCode;
 
     public Long getId() {
@@ -60,6 +52,4 @@ public class AccountInfoBo {
         this.sortCode = sortCode;
     }
 
-   
-    
 }
