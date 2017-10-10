@@ -4,6 +4,83 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 public class CommonUtility {
+    
+    public static void setUpUser(EntityManager entityManager){
+        StringBuilder createTransacSql = new StringBuilder();
+        createTransacSql.append("   CREATE TABLE user_details ( ")
+        .append("  username VARCHAR(50) NOT NULL PRIMARY KEY, ")
+        .append("  email VARCHAR(50), ")
+        .append("  password VARCHAR(500), ")
+        .append("  activated VARCHAR(50), ")
+        .append("  activationkey VARCHAR(50), ")
+        .append("  resetpasswordkey VARCHAR(50) ")
+        .append(") ");
+        Query q =  entityManager.createNativeQuery(createTransacSql.toString());
+        q.executeUpdate();
+        
+        
+        createTransacSql = new StringBuilder();
+        createTransacSql.append("CREATE TABLE authority (")
+        .append(" name VARCHAR(50) NOT NULL PRIMARY KEY " )
+        .append(" ) ");
+         q =  entityManager.createNativeQuery(createTransacSql.toString());
+        q.executeUpdate();
+        
+        
+        createTransacSql = new StringBuilder();
+        createTransacSql.append(" CREATE TABLE user_authority ")
+        .append("  (    username VARCHAR(50) NOT NULL, " )
+        .append(" authority VARCHAR(50) NOT NULL ) ");
+         q =  entityManager.createNativeQuery(createTransacSql.toString());
+        q.executeUpdate();
+        
+        
+        q =  entityManager.createNativeQuery(" alter table user_authority add CONSTRAINT FK_user FOREIGN KEY (username) REFERENCES user_details (username) ");
+        q.executeUpdate();
+        
+        q =  entityManager.createNativeQuery(" alter table user_authority add CONSTRAINT FK_authority FOREIGN KEY (authority) REFERENCES authority (name) ");
+        q.executeUpdate();
+        
+        q =  entityManager.createNativeQuery(" alter table user_authority add CONSTRAINT Uniq_authority Unique(username,authority) ");
+        q.executeUpdate();
+        
+        createTransacSql = new StringBuilder();
+        createTransacSql.append(" CREATE TABLE oauth_access_token ( ")
+        .append("  token_id VARCHAR(256) DEFAULT NULL, " )
+        .append("   token BLOB, " )
+       
+        .append(" authentication_id VARCHAR(256) DEFAULT NULL, ")
+        .append(" user_name VARCHAR(256) DEFAULT NULL, ")
+        .append(" client_id VARCHAR(256) DEFAULT NULL, ")
+        .append(" authentication BLOB, ")
+        .append(" refresh_token VARCHAR(256) DEFAULT NULL ")
+        .append(" ) ");
+         q =  entityManager.createNativeQuery(createTransacSql.toString());
+        q.executeUpdate();
+        
+        
+        createTransacSql = new StringBuilder();
+        createTransacSql.append(" CREATE TABLE oauth_refresh_token ( ")
+        .append("  token_id VARCHAR(256) DEFAULT NULL, " )
+        .append("   token BLOB, " )
+       
+        .append(" authentication BLOB ")
+        .append(" ) ");
+         q =  entityManager.createNativeQuery("INSERT INTO user_details (username,email, password, activated) VALUES ('hasim', 'hasim@abc.com', 'test', 'true')");
+        q.executeUpdate();
+        
+        q =  entityManager.createNativeQuery("INSERT INTO authority (name) VALUES ('ROLE_USER')");
+        q.executeUpdate();
+        
+        q =  entityManager.createNativeQuery("INSERT INTO authority (name) VALUES ('ROLE_ADMIN')");
+        q.executeUpdate();
+        
+        q =  entityManager.createNativeQuery("INSERT INTO user_authority (username,authority) VALUES ('hasim', 'ROLE_USER')");
+        q.executeUpdate();
+        q =  entityManager.createNativeQuery("INSERT INTO user_authority (username,authority) VALUES ('hasim', 'ROLE_ADMIN')");
+        q.executeUpdate();
+        
+    }
     public static void prepareData(EntityManager entityManager){
         Query q =  entityManager.createNativeQuery(" drop table ACCOUNT  if exists ");
         q.executeUpdate();
