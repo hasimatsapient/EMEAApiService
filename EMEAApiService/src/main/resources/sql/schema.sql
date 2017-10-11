@@ -16,9 +16,9 @@ CREATE TABLE user_authority
 	authority VARCHAR(50) NOT NULL
 	
    );
-   alter table user_authority add CONSTRAINT FK_user FOREIGN KEY (username) REFERENCES user_details (username) ;
-   alter table user_authority add CONSTRAINT FK_authority FOREIGN KEY (authority) REFERENCES authority (name) ;
-    ALTER TABLE user_authority ADD CONSTRAINT Uniqque_authority_unique UNIQUE (username,authority);
+alter table user_authority add CONSTRAINT FK_user FOREIGN KEY (username) REFERENCES user_details (username) ;
+alter table user_authority add CONSTRAINT FK_authority FOREIGN KEY (authority) REFERENCES authority (name) ;
+ALTER TABLE user_authority ADD CONSTRAINT Uniqque_authority_unique UNIQUE (username,authority);
 
 CREATE TABLE oauth_access_token (
   token_id VARCHAR(256) DEFAULT NULL,
@@ -37,14 +37,14 @@ CREATE TABLE oauth_refresh_token (
 );
 
   
-  CREATE TABLE ACCOUNT  (
+CREATE TABLE ACCOUNT  (
 	ID NUMBER(19,0) ,
 	SORT_CODE NUMBER(19,0),
 	 PRIMARY KEY (ID)
 ) ;
 CREATE SEQUENCE ACCOUNT_seq START WITH 1 CACHE 1000;
 
-  CREATE TABLE TRANSACTION  (
+CREATE TABLE TRANSACTION  (
 	ID NUMBER(19,0) NOT NULL ENABLE, 
 	BANK_TRAN_CODE VARCHAR2(255 CHAR), 
 	BANK_TRAN_SUB_CODE VARCHAR2(255 CHAR), 
