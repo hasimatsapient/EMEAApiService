@@ -10,3 +10,8 @@ INSERT INTO user_authority (username,authority) VALUES ('hasim', 'ROLE_ADMIN');
 INSERT INTO user_authority (username,authority) VALUES ('user', 'ROLE_USER');
 INSERT INTO user_authority (username,authority) VALUES ('admin', 'ROLE_USER');
 INSERT INTO user_authority (username,authority) VALUES ('admin', 'ROLE_ADMIN');
+
+select account_info_seq.nextVal from dual;
+insert into account values (account_info_seq.currVal,122312);
+select transaction_seq.nextVal from dual;
+insert into transaction values (transaction_seq.currVal,'as','as',TO_TIMESTAMP('2017-07-02 06:14:00.742000000', 'YYYY-MM-DD HH24:MI:SS.FF'),'c',123.20,'we','we','we','ew','we',TO_TIMESTAMP('2017-03-02 06:14:00.742000000', 'YYYY-MM-DD HH24:MI:SS.FF'),'ew','er',234.29,'ewr','wed','we','EarMark',account_info_seq.currVal);
