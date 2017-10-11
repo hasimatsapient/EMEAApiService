@@ -11,11 +11,12 @@ import com.emea.util.CommonUtil;
 
 /**
  * Service to fetch account information
+ * 
  * @author hmolla
  *
  */
 @Service
-public class AccountInfoServiceImpl implements AccountInfoService{
+public class AccountInfoServiceImpl implements AccountInfoService {
     private static final Logger LOG = Logger
             .getLogger(AccountInfoServiceImpl.class);
     @Autowired
@@ -23,18 +24,21 @@ public class AccountInfoServiceImpl implements AccountInfoService{
 
     /**
      * Method to get account information.
+     * 
      * @param accountNumber
      * @param sortCode
      * @return
      */
-    public AccountInfoVo getAccountDetails(long accountNumber, long sortCode){
+    public AccountInfoVo getAccountDetails(long accountNumber, long sortCode) {
         LOG.info("Started executing getAccountDetails");
-        AccountInfoBo accountInfoBo =accountInfoDao.getAccountInfoByAccountNumberAndSortCode(accountNumber, sortCode);
-        
-        AccountInfoVo accountInfoVo = CommonUtil. convertAccountInfoBoToVo(accountInfoBo);
+        AccountInfoBo accountInfoBo = accountInfoDao
+                .getAccountInfoByAccountNumberAndSortCode(accountNumber,
+                        sortCode);
+
+        AccountInfoVo accountInfoVo = CommonUtil
+                .convertAccountInfoBoToVo(accountInfoBo);
         LOG.info("Finished executing getAccountDetails");
         return accountInfoVo;
     }
-    
-   
+
 }

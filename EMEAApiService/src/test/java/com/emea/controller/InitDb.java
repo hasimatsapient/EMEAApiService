@@ -9,25 +9,25 @@ public class InitDb {
     public static Server server;
     private static final String H2_SER_PORT = "9990";
     private static final String TCP_PORT_STR = "-tcpPort";
-    public static boolean flag =true;
+    public static boolean flag = true;
     @BeforeClass
-    public static void init(){
-        if(flag){
-            
-            String[] params={TCP_PORT_STR, H2_SER_PORT};
+    public static void init() {
+        if (flag) {
+
+            String[] params = {TCP_PORT_STR, H2_SER_PORT};
             try {
-               server = Server.createTcpServer(params);
-               server.start();
-               flag=false;
-           } catch (SQLException e) {
-               e.printStackTrace();
-           }
-            
+                server = Server.createTcpServer(params);
+                server.start();
+                flag = false;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
-        
+
     }
-    
-    public void shutDownDB(){
+
+    public void shutDownDB() {
         server.shutdown();
     }
 }

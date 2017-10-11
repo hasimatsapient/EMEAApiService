@@ -24,27 +24,16 @@ public class TransactionVo {
     /*
      * 
      * 
-     "TransactionId": "string",
-"PermanentAccountNumber": "string",
-"TransactionAmount": "string",
-"TransactionCurrencyCode": "string",
-"CreditDebitIndicator": "C",
-"TransactionStatus": "P",
-"PostedDateTime": "string",
-"BookedDateTime": "string",
-"TransactionDescription": "string",
-"Type": "EarMark",
-"InterimBookedBalanceAmount": "string",
-"InterimBookedBalanceCurrencyCode": "string",
-"BankTransactionCode": "string",
-"BankTransactionSubCode": "string",
-"ProprietaryTransactionCode": "string",
-"ProprietaryTransactionIssuer": "string",
-"MerchantName": "string",
-"MerchantCategoryCode": "string",
-"InterimBookedCreditDebitIndicator": "string"
-     * 
-     * 
+     * "TransactionId": "string", "PermanentAccountNumber": "string",
+     * "TransactionAmount": "string", "TransactionCurrencyCode": "string",
+     * "CreditDebitIndicator": "C", "TransactionStatus": "P", "PostedDateTime":
+     * "string", "BookedDateTime": "string", "TransactionDescription": "string",
+     * "Type": "EarMark", "InterimBookedBalanceAmount": "string",
+     * "InterimBookedBalanceCurrencyCode": "string", "BankTransactionCode":
+     * "string", "BankTransactionSubCode": "string",
+     * "ProprietaryTransactionCode": "string", "ProprietaryTransactionIssuer":
+     * "string", "MerchantName": "string", "MerchantCategoryCode": "string",
+     * "InterimBookedCreditDebitIndicator": "string"
      */
     public String getTransactionId() {
         return transactionId;
@@ -140,7 +129,8 @@ public class TransactionVo {
     public String getProprietaryTransactionIssuer() {
         return proprietaryTransactionIssuer;
     }
-    public void setProprietaryTransactionIssuer(String proprietaryTransactionIssuer) {
+    public void setProprietaryTransactionIssuer(
+            String proprietaryTransactionIssuer) {
         this.proprietaryTransactionIssuer = proprietaryTransactionIssuer;
     }
     public String getMerchantName() {

@@ -23,6 +23,7 @@ import com.emea.util.CommonUtil;
 
 /**
  * Class to handle api service
+ * 
  * @author hmolla
  *
  */
@@ -36,15 +37,16 @@ public class AccountInfoController {
             .getLogger(AccountInfoController.class);
     private static final String ACCOUNT_NUMBER = "accountNumber";
     private static final String SORT_CODE = "sortCode";
-    
+
     @Value("${github.users.url:}")
     String gitHubUrl;
-    
+
     @Value("${github.users.url.timeout:1000}")
     String connectionTimeOut;
-    
+
     /**
      * Method to get account details
+     * 
      * @param accountInfoVo
      * @return
      * @throws ApplicationException
@@ -86,10 +88,11 @@ public class AccountInfoController {
         }
 
         result.put("Transactions", accountInfo.getTransactions());
-        
-        result.put("ThirdpartyOutput", CommonUtil.getThirdPartyResponse(gitHubUrl, Integer.valueOf(connectionTimeOut)));
-        
-        
+
+        result.put(
+                "ThirdpartyOutput",
+                CommonUtil.getThirdPartyResponse(gitHubUrl,
+                        Integer.valueOf(connectionTimeOut)));
 
         LOG.info("Finished executing getAccountDetails");
 

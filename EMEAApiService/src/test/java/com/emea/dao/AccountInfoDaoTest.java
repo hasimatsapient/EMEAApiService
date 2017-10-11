@@ -20,36 +20,35 @@ import com.emea.model.AccountInfoBo;
 import com.emea.util.CommonUtility;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:conf/test-app-config.xml" })
+@ContextConfiguration({"classpath:conf/test-app-config.xml"})
+public class AccountInfoDaoTest extends InitDb {
 
-public class AccountInfoDaoTest extends InitDb{
-    
     @Autowired
     private AccountInfoDao accountInfoDao;
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         CommonUtility.prepareData(entityManager);
     }
-    
-    
+
     @Test
-    @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void testGetAccountInfoByAccountNumberAndSortCodeWithData() {   
-        AccountInfoBo accountInfoBo= accountInfoDao.getAccountInfoByAccountNumberAndSortCode(1L, 122312);
-        
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testGetAccountInfoByAccountNumberAndSortCodeWithData() {
+        AccountInfoBo accountInfoBo = accountInfoDao
+                .getAccountInfoByAccountNumberAndSortCode(1L, 122312);
+
         assertNotNull(accountInfoBo);
     }
     @Test
-    @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void testGetAccountInfoByAccountNumberAndSortCodeWithNoData() {   
-        AccountInfoBo accountInfoBo= accountInfoDao.getAccountInfoByAccountNumberAndSortCode(2L, 122312);
-        
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testGetAccountInfoByAccountNumberAndSortCodeWithNoData() {
+        AccountInfoBo accountInfoBo = accountInfoDao
+                .getAccountInfoByAccountNumberAndSortCode(2L, 122312);
+
         assertNull(accountInfoBo);
     }
-    
-    
+
 }

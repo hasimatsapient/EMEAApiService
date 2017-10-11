@@ -10,6 +10,7 @@ import com.emea.exception.ErrorResponse;
 
 /**
  * Class to handle generic exception
+ * 
  * @author hmolla
  *
  */
@@ -20,6 +21,7 @@ public class CustomControllerAdvice {
 
     /**
      * Method to handle generic exception
+     * 
      * @param ex
      * @return
      */

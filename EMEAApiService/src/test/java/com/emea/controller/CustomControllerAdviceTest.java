@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.emea.util.CommonUtility;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:conf/test-app-config.xml" })
+@ContextConfiguration({"classpath:conf/test-app-config.xml"})
 public class CustomControllerAdviceTest extends InitDb {
 
     @Autowired
@@ -25,14 +25,15 @@ public class CustomControllerAdviceTest extends InitDb {
     @PersistenceContext
     private EntityManager entityManager;
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         CommonUtility.prepareData(entityManager);
     }
     @Test
-    @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void testExceptionHandler() {   
-        
-        assertNotNull(customControllerAdvice.exceptionHandler(new Exception("exception")));
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testExceptionHandler() {
+
+        assertNotNull(customControllerAdvice.exceptionHandler(new Exception(
+                "exception")));
     }
 }

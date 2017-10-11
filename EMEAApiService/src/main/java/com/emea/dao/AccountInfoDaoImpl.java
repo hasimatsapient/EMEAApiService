@@ -16,39 +16,45 @@ import com.emea.model.AccountInfoBo;
 
 /**
  * Class to fetch account information.
+ * 
  * @author hmolla
  *
  */
 @Component
 public class AccountInfoDaoImpl implements AccountInfoDao {
-    private static final Logger LOG = Logger
-            .getLogger(AccountInfoDao.class);
+    private static final Logger LOG = Logger.getLogger(AccountInfoDao.class);
     private static final String ID = "id";
     private static final String SORT_CODE = "sortCode";
     @PersistenceContext
     private EntityManager entityManager;
-     
-    /* Method to get account information based on account number and sortcode
+
+    /*
+     * Method to get account information based on account number and sortcode
      * (non-Javadoc)
-     * @see com.emea.dao.AccountInfoDao#getAccountInfoByAccountNumberAndSortCode(long, long)
+     * 
+     * @see
+     * com.emea.dao.AccountInfoDao#getAccountInfoByAccountNumberAndSortCode(
+     * long, long)
      */
-    public AccountInfoBo getAccountInfoByAccountNumberAndSortCode(long accountNumber, long sortCode) {
+    public AccountInfoBo getAccountInfoByAccountNumberAndSortCode(
+            long accountNumber, long sortCode) {
         AccountInfoBo result = null;
         LOG.info("Started executing getAccountInfoByAccountNumberAndSortCode");
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        
+
         CriteriaQuery<AccountInfoBo> cq = cb.createQuery(AccountInfoBo.class);
         Root<AccountInfoBo> accountInfo = cq.from(AccountInfoBo.class);
         cq.select(accountInfo);
-        cq.where(cb.and(cb.equal(accountInfo.get(ID), accountNumber),cb.equal(accountInfo.get(SORT_CODE), sortCode)));
+        cq.where(cb.and(cb.equal(accountInfo.get(ID), accountNumber),
+                cb.equal(accountInfo.get(SORT_CODE), sortCode)));
         TypedQuery<AccountInfoBo> q = entityManager.createQuery(cq);
         List<AccountInfoBo> allUsers = q.getResultList();
-        
-        if(allUsers!=null && allUsers.size()>0){
+
+        if (allUsers != null && allUsers.size() > 0) {
             result = allUsers.get(0);
         }
         LOG.info("Finished executing getAccountInfoByAccountNumberAndSortCode");
         return result;
 
-     }
- }
+    }
+}

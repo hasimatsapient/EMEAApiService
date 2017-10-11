@@ -6,6 +6,7 @@ import com.emea.dto.AccountInfoVo;
 
 /**
  * Service to fetch account information
+ * 
  * @author hmolla
  *
  */
@@ -13,11 +14,11 @@ import com.emea.dto.AccountInfoVo;
 public interface AccountInfoService {
     /**
      * Method to get account information.
+     * 
      * @param accountNumber
      * @param sortCode
      * @return
      */
     public AccountInfoVo getAccountDetails(long accountNumber, long sortCode);
-    
-   
+
 }

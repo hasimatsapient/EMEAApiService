@@ -19,32 +19,29 @@ import com.emea.controller.InitDb;
 import com.emea.util.CommonUtility;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:conf/test-app-config.xml" })
+@ContextConfiguration({"classpath:conf/test-app-config.xml"})
 public class ClientDetailsServiceTest extends InitDb {
     @Autowired
     private org.springframework.security.oauth2.provider.ClientDetailsService clientDetailsService;
-    
-   
-    
+
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         CommonUtility.prepareData(entityManager);
-        CommonUtility. setUpUser(entityManager);
-      
+        CommonUtility.setUpUser(entityManager);
+
     }
-    
-    
-    
+
     @Test
-    @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void testGetAccountDetailsWithData() {   
-        ClientDetails clientDetails=  clientDetailsService.loadClientByClientId("hasim");
-        
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testGetAccountDetailsWithData() {
+        ClientDetails clientDetails = clientDetailsService
+                .loadClientByClientId("hasim");
+
         assertNotNull(clientDetails);
     }
-    
+
 }

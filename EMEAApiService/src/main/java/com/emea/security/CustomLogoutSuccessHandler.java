@@ -14,18 +14,18 @@ import org.springframework.security.web.authentication.AbstractAuthenticationTar
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
-
-
 /**
  * Spring Security logout handler
+ * 
  * @author hmolla
  *
  */
 @Component
 public class CustomLogoutSuccessHandler
-        extends AbstractAuthenticationTargetUrlRequestHandler
-        implements LogoutSuccessHandler {
-
+        extends
+            AbstractAuthenticationTargetUrlRequestHandler
+        implements
+            LogoutSuccessHandler {
 
     private static final String BEARER_AUTHENTICATION = "Bearer ";
     private static final String HEADER_AUTHORIZATION = "authorization";
@@ -34,21 +34,23 @@ public class CustomLogoutSuccessHandler
     private TokenStore tokenStore;
 
     /**
-     * Method to clear access token.
-     * (non-Javadoc)
-     * @see org.springframework.security.web.authentication.logout.LogoutSuccessHandler#onLogoutSuccess(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.Authentication)
+     * Method to clear access token. (non-Javadoc)
+     * 
+     * @see org.springframework.security.web.authentication.logout.LogoutSuccessHandler#onLogoutSuccess(javax.servlet.http.HttpServletRequest,
+     *      javax.servlet.http.HttpServletResponse,
+     *      org.springframework.security.core.Authentication)
      */
     @Override
     public void onLogoutSuccess(HttpServletRequest request,
-                                HttpServletResponse response,
-                                Authentication authentication)
+            HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
 
         String token = request.getHeader(HEADER_AUTHORIZATION);
 
         if (token != null && token.startsWith(BEARER_AUTHENTICATION)) {
 
-            OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token.split(" ")[0]);
+            OAuth2AccessToken oAuth2AccessToken = tokenStore
+                    .readAccessToken(token.split(" ")[0]);
 
             if (oAuth2AccessToken != null) {
                 tokenStore.removeAccessToken(oAuth2AccessToken);

@@ -15,7 +15,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 
 @Entity
-@Table(name="user_details")
+@Table(name = "user_details")
 public class User {
 
     @Id
@@ -29,8 +29,8 @@ public class User {
     @Email
     @Size(min = 0, max = 50)
     private String email;
-    
-    @Type(type="true_false")
+
+    @Type(type = "true_false")
     private boolean activated;
 
     @Size(min = 0, max = 100)
@@ -42,10 +42,7 @@ public class User {
     private String resetPasswordKey;
 
     @ManyToMany
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "authority"))
+    @JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "authority"))
     private Set<Authority> authorities;
 
     public String getUsername() {
@@ -106,12 +103,15 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         User user = (User) o;
 
-        if (!username.equals(user.username)) return false;
+        if (!username.equals(user.username))
+            return false;
 
         return true;
     }
@@ -123,14 +123,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", activated='" + activated + '\'' +
-                ", activationKey='" + activationKey + '\'' +
-                ", resetPasswordKey='" + resetPasswordKey + '\'' +
-                ", authorities=" + authorities +
-                '}';
+        return "User{" + "username='" + username + '\'' + ", password='"
+                + password + '\'' + ", email='" + email + '\''
+                + ", activated='" + activated + '\'' + ", activationKey='"
+                + activationKey + '\'' + ", resetPasswordKey='"
+                + resetPasswordKey + '\'' + ", authorities=" + authorities
+                + '}';
     }
 }

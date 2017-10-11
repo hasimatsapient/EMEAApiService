@@ -20,42 +20,37 @@ import com.emea.dto.AccountInfoVo;
 import com.emea.util.CommonUtility;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:conf/test-app-config.xml" })
+@ContextConfiguration({"classpath:conf/test-app-config.xml"})
+public class AccountInfoServiceTest extends InitDb {
 
-public class AccountInfoServiceTest extends InitDb{
-    
-     
     @Autowired
     private AccountInfoService accountInfoService;
-    
-    
+
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         CommonUtility.prepareData(entityManager);
-        
-        
+
     }
-    
-    
-    
+
     @Test
-    @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void testGetAccountDetailsWithData() {   
-        AccountInfoVo accountInfoVo= accountInfoService.getAccountDetails(1L, 122312);
-        
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testGetAccountDetailsWithData() {
+        AccountInfoVo accountInfoVo = accountInfoService.getAccountDetails(1L,
+                122312);
+
         assertNotNull(accountInfoVo);
     }
     @Test
-    @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void testGetAccountDetailsWithOutData() {   
-        AccountInfoVo accountInfoVo= accountInfoService.getAccountDetails(2L, 122312);
-        
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testGetAccountDetailsWithOutData() {
+        AccountInfoVo accountInfoVo = accountInfoService.getAccountDetails(2L,
+                122312);
+
         assertNull(accountInfoVo);
     }
-    
-   
+
 }

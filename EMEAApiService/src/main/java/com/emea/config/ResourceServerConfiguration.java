@@ -11,36 +11,34 @@ import com.emea.security.CustomAuthenticationEntryPoint;
 import com.emea.security.CustomLogoutSuccessHandler;
 
 @Configuration
- @EnableResourceServer
+@EnableResourceServer
 public class ResourceServerConfiguration
-extends
-ResourceServerConfigurerAdapter {
+        extends
+            ResourceServerConfigurerAdapter {
 
+    @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
+    @Autowired
+    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
- @Autowired
-private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
 
- @Autowired
-private CustomLogoutSuccessHandler customLogoutSuccessHandler;
+        http.exceptionHandling()
+                .authenticationEntryPoint(customAuthenticationEntryPoint)
+                .and()
+                .logout()
+                .logoutUrl("/oauth/logout")
+                .logoutSuccessHandler(customLogoutSuccessHandler)
+                .and()
+                .csrf()
+                .requireCsrfProtectionMatcher(
+                        new AntPathRequestMatcher("/oauth/authorize"))
+                .disable().headers().frameOptions().disable().and()
+                .authorizeRequests().antMatchers("/emeaapiservice/**")
+                .authenticated();
 
- @Override
-public void configure(HttpSecurity http) throws Exception {
-
-http.exceptionHandling()
-    .authenticationEntryPoint(customAuthenticationEntryPoint)
-    .and()
-    .logout()
-    .logoutUrl("/oauth/logout")
-    .logoutSuccessHandler(customLogoutSuccessHandler)
-    .and()
-    .csrf()
-    .requireCsrfProtectionMatcher(
-            new AntPathRequestMatcher("/oauth/authorize"))
-    .disable().headers().frameOptions().disable().and()
-    .authorizeRequests()
-    .antMatchers("/emeaapiservice/**").authenticated();
-
-}
+    }
 
 }

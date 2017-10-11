@@ -10,6 +10,7 @@ import com.emea.util.ApplicationContextUtil;
 
 /**
  * This is main class to initiate application loading.
+ * 
  * @author hmolla
  * 
  *
@@ -22,6 +23,7 @@ public class Application {
 
     /**
      * Main method to start application
+     * 
      * @param args
      */
     public static void main(String[] args) {
@@ -34,8 +36,6 @@ public class Application {
         } catch (Exception e) {
             LOG.error("Error occurred during startup ", e);
         }
-        
-
 
     }
 }

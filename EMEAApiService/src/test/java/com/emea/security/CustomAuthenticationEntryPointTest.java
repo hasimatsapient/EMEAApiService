@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
@@ -21,40 +20,36 @@ import com.emea.controller.InitDb;
 import com.emea.util.CommonUtility;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:conf/test-app-config.xml" })
+@ContextConfiguration({"classpath:conf/test-app-config.xml"})
+public class CustomAuthenticationEntryPointTest extends InitDb {
 
-public class CustomAuthenticationEntryPointTest extends InitDb{
-    
-    
     @PersistenceContext
     private EntityManager entityManager;
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         CommonUtility.prepareData(entityManager);
     }
-    
-    
+
     @Autowired
     CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    
+
     @Mock
     HttpServletRequest request;
     @Mock
     HttpServletResponse response;
     @Mock
     AuthenticationException ae;
-    
+
     @Test
-    @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void testOnLogoutSuccess(){
-        try{
-            
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testOnLogoutSuccess() {
+        try {
+
             customAuthenticationEntryPoint.commence(request, response, ae);
-            
-        
-        } catch(Exception e){
-            
+
+        } catch (Exception e) {
+
         }
     }
 }

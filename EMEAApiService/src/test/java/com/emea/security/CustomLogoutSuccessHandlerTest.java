@@ -21,39 +21,40 @@ import com.emea.controller.InitDb;
 import com.emea.util.CommonUtility;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:conf/test-app-config.xml" })
-
-public class CustomLogoutSuccessHandlerTest extends InitDb{
+@ContextConfiguration({"classpath:conf/test-app-config.xml"})
+public class CustomLogoutSuccessHandlerTest extends InitDb {
     private static final String HEADER_AUTHORIZATION = "authorization";
     private static final String BEARER_AUTHENTICATION = "Bearer ";
     @PersistenceContext
     private EntityManager entityManager;
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         CommonUtility.prepareData(entityManager);
         CommonUtility.setUpUser(entityManager);
     }
     @Autowired
     CustomLogoutSuccessHandler customLogoutSuccessHandler;
-    
+
     @Mock
     HttpServletRequest request;
     @Mock
     HttpServletResponse response;
     @Mock
     Authentication authentication;
-    
-    @Test
-    @Transactional(Transactional.TxType. REQUIRES_NEW)
-    public void testOnLogoutSuccess(){
-        try{
-            
-            Mockito.when(request.getHeader(HEADER_AUTHORIZATION)).thenReturn(BEARER_AUTHENTICATION);
 
-        customLogoutSuccessHandler.onLogoutSuccess(request, response, authentication);
-        } catch(Exception e){
-            
+    @Test
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testOnLogoutSuccess() {
+        try {
+
+            Mockito.when(request.getHeader(HEADER_AUTHORIZATION)).thenReturn(
+                    BEARER_AUTHENTICATION);
+
+            customLogoutSuccessHandler.onLogoutSuccess(request, response,
+                    authentication);
+        } catch (Exception e) {
+
         }
     }
 }

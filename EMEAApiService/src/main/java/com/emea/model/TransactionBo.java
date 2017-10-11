@@ -15,53 +15,53 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Transaction")
-public class TransactionBo  {
+@Table(name = "Transaction")
+public class TransactionBo {
     @Id
     @SequenceGenerator(name = "transaction_seq_GENERATOR", sequenceName = "transaction_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq_GENERATOR")
     private Long id;
-    
-    @Column(name="credit_debit_indicator")
+
+    @Column(name = "credit_debit_indicator")
     String creditDebitInd;
-    
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     AccountInfoBo accountInfo;
-    
-    @Column(name="Permanent_Account_Number")
+
+    @Column(name = "Permanent_Account_Number")
     String permanentAccountNumber;
-    @Column(name="Transaction_Amount")
+    @Column(name = "Transaction_Amount")
     Double transactionAmount;
-    @Column(name="Transaction_Curr_Code")
+    @Column(name = "Transaction_Curr_Code")
     String transactionCurrencyCode;
-    @Column(name="Transaction_Status")
+    @Column(name = "Transaction_Status")
     String transactionStatus;
-    @Column(name="Posted_Date_Time")
+    @Column(name = "Posted_Date_Time")
     Date postedDateTime;
-    @Column(name="Booked_Date_Time")
+    @Column(name = "Booked_Date_Time")
     Date bookedDateTime;
-    @Column(name="Tran_Description")
+    @Column(name = "Tran_Description")
     String transactionDescription;
-    @Column(name="Type")
+    @Column(name = "Type")
     String type;
-    @Column(name="Inter_Booked_Bal_Amt")
+    @Column(name = "Inter_Booked_Bal_Amt")
     Double interimBookedBalanceAmount;
-    @Column(name="Inter_Booked_Bal_Curr_Code")
+    @Column(name = "Inter_Booked_Bal_Curr_Code")
     String interimBookedBalanceCurrencyCode;
-    @Column(name="Bank_Tran_Code")
+    @Column(name = "Bank_Tran_Code")
     String bankTransactionCode;
-    @Column(name="Bank_Tran_Sub_Code")
+    @Column(name = "Bank_Tran_Sub_Code")
     String bankTransactionSubCode;
-    @Column(name="Proprietary_Tran_Code")
+    @Column(name = "Proprietary_Tran_Code")
     String proprietaryTransactionCode;
-    @Column(name="Proprietary_Tran_Issuer")
+    @Column(name = "Proprietary_Tran_Issuer")
     String proprietaryTransactionIssuer;
-    @Column(name="Merchant_Name")
+    @Column(name = "Merchant_Name")
     String merchantName;
-    @Column(name="Merchant_Category_Code")
+    @Column(name = "Merchant_Category_Code")
     String merchantCategoryCode;
-    @Column(name="Inter_Booked_Cr_Db_Ind")
+    @Column(name = "Inter_Booked_Cr_Db_Ind")
     String interimBookedCreditDebitIndicator;
 
     public Long getId() {
@@ -197,7 +197,8 @@ public class TransactionBo  {
         return proprietaryTransactionIssuer;
     }
 
-    public void setProprietaryTransactionIssuer(String proprietaryTransactionIssuer) {
+    public void setProprietaryTransactionIssuer(
+            String proprietaryTransactionIssuer) {
         this.proprietaryTransactionIssuer = proprietaryTransactionIssuer;
     }
 
