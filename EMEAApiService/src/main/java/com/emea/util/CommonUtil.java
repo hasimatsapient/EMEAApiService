@@ -5,9 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -29,6 +32,7 @@ import org.springframework.util.ResourceUtils;
 
 import com.emea.dto.AccountInfoVo;
 import com.emea.dto.TransactionVo;
+import com.emea.exception.ApplicationException;
 import com.emea.model.AccountInfoBo;
 import com.emea.model.TransactionBo;
 
@@ -41,9 +45,7 @@ import com.emea.model.TransactionBo;
 public class CommonUtil {
     private static final String ERROR_OCCURED = "Error occurred";
     private static final String PATH_APP_PROPERTIES = "conf/application.properties";
-    private static final String SERVER = "server";
-    private static final String SPRING = "spring.";
-    private static final String pattern = "yyyy-MM-dd";
+    private static final String pattern = "dd-MM-yyyy";
     private static Logger LOG = Logger.getLogger(CommonUtil.class);
 
     /**
@@ -152,8 +154,8 @@ public class CommonUtil {
                     .setTransactionId(String.valueOf(transactionBo.getId()));
             transactionVo.setPermanentAccountNumber(String
                     .valueOf(transactionBo.getPermanentAccountNumber()));
-            transactionVo.setTransactionAmount(String.valueOf(transactionBo
-                    .getTransactionAmount()));
+            transactionVo.setTransactionAmount(BigDecimal.valueOf(
+                    transactionBo.getTransactionAmount()).toPlainString());
             transactionVo.setTransactionCurrencyCode(String
                     .valueOf(transactionBo.getTransactionCurrencyCode()));
             transactionVo.setCreditDebitIndicator(String.valueOf(transactionBo
@@ -167,8 +169,9 @@ public class CommonUtil {
             transactionVo.setTransactionDescription(String
                     .valueOf(transactionBo.getTransactionDescription()));
             transactionVo.setType(String.valueOf(transactionBo.getType()));
-            transactionVo.setInterimBookedBalanceAmount(String
-                    .valueOf(transactionBo.getInterimBookedBalanceAmount()));
+            transactionVo.setInterimBookedBalanceAmount(BigDecimal.valueOf(
+                    transactionBo.getInterimBookedBalanceAmount())
+                    .toPlainString());
             transactionVo.setInterimBookedBalanceCurrencyCode(String
                     .valueOf(transactionBo
                             .getInterimBookedBalanceCurrencyCode()));
@@ -202,6 +205,22 @@ public class CommonUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         if (date != null) {
             return simpleDateFormat.format(date);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Method to convert date to string
+     * 
+     * @param date
+     * @return
+     * @throws ParseException
+     */
+    public static Date convertStringDate(String date) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        if (date != null) {
+            return simpleDateFormat.parse(date);
         } else {
             return null;
         }
@@ -243,6 +262,112 @@ public class CommonUtil {
         }
 
         return sb.toString();
+    }
+
+    public static AccountInfoBo convertAccountInfoVoToBo(
+            AccountInfoVo accountInfoVo, boolean createFlow)
+            throws ApplicationException {
+
+        AccountInfoBo accountInfoBo = null;
+        if (accountInfoVo != null) {
+            accountInfoBo = new AccountInfoBo();
+
+            if (accountInfoVo.getAccountNumber() != null) {
+                accountInfoBo.setId(accountInfoVo.getAccountNumber());
+            }
+
+            if (accountInfoVo.getSortCode() != null) {
+                accountInfoBo.setSortCode(accountInfoVo.getSortCode());
+            }
+
+            List<TransactionVo> transactionVos = accountInfoVo
+                    .getTransactions();
+            if (transactionVos != null && transactionVos.size() > 0) {
+                Set<TransactionBo> transactions = new HashSet<>();
+
+                for (TransactionVo transactionVo : transactionVos) {
+                    TransactionBo transactionBo = convertTransactionVoToBo(
+                            transactionVo, createFlow);
+                    transactionBo.setAccountInfo(accountInfoBo);
+                    transactions.add(transactionBo);
+                }
+
+                accountInfoBo.setTransactionBos(transactions);
+            }
+
+        }
+
+        return accountInfoBo;
+
+    }
+
+    private static TransactionBo convertTransactionVoToBo(
+            TransactionVo transactionVo, boolean createFlow)
+            throws ApplicationException {
+        TransactionBo transactionBo = null;
+        if (transactionVo != null) {
+            transactionBo = new TransactionBo();
+            if (!createFlow) {
+                transactionBo.setId(Long.valueOf(transactionVo
+                        .getTransactionId()));
+            }
+
+            transactionBo.setPermanentAccountNumber(String
+                    .valueOf(transactionVo.getPermanentAccountNumber()));
+            try {
+                Double transactionAmount = transactionVo.getTransactionAmount() != null
+                        ? Double.valueOf(transactionVo.getTransactionAmount())
+                        : 0.0;
+                transactionBo.setTransactionAmount(transactionAmount);
+                Double interimBookedBalanceAmount = transactionVo
+                        .getInterimBookedBalanceAmount() != null
+                        ? Double.valueOf(transactionVo
+                                .getInterimBookedBalanceAmount()) : 0.0;
+                transactionBo
+                        .setInterimBookedBalanceAmount(interimBookedBalanceAmount);
+            } catch (NumberFormatException ex) {
+                LOG.error("Error occurred", ex);
+                throw new ApplicationException(ex);
+            }
+            transactionBo.setTransactionCurrencyCode(String
+                    .valueOf(transactionVo.getTransactionCurrencyCode()));
+            transactionBo.setCreditDebitInd(String.valueOf(transactionVo
+                    .getCreditDebitIndicator()));
+            transactionBo.setTransactionStatus(String.valueOf(transactionVo
+                    .getTransactionStatus()));
+            try {
+                transactionBo.setPostedDateTime(convertStringDate(transactionVo
+                        .getPostedDateTime()));
+                transactionBo.setBookedDateTime(convertStringDate(transactionVo
+                        .getBookedDateTime()));
+            } catch (ParseException e) {
+                LOG.error("Error occurred", e);
+                throw new ApplicationException(e);
+            }
+            transactionBo.setTransactionDescription(String
+                    .valueOf(transactionVo.getTransactionDescription()));
+            transactionBo.setType(String.valueOf(transactionVo.getType()));
+            transactionBo.setInterimBookedBalanceCurrencyCode(String
+                    .valueOf(transactionVo
+                            .getInterimBookedBalanceCurrencyCode()));
+            transactionBo.setBankTransactionCode(String.valueOf(transactionVo
+                    .getBankTransactionCode()));
+            transactionBo.setBankTransactionSubCode(String
+                    .valueOf(transactionVo.getBankTransactionSubCode()));
+            transactionBo.setProprietaryTransactionCode(String
+                    .valueOf(transactionVo.getProprietaryTransactionCode()));
+            transactionBo.setProprietaryTransactionIssuer(String
+                    .valueOf(transactionVo.getProprietaryTransactionIssuer()));
+            transactionBo.setMerchantName(String.valueOf(transactionVo
+                    .getMerchantName()));
+            transactionBo.setMerchantCategoryCode(String.valueOf(transactionVo
+                    .getMerchantCategoryCode()));
+            transactionBo.setInterimBookedCreditDebitIndicator(String
+                    .valueOf(transactionVo
+                            .getInterimBookedCreditDebitIndicator()));
+        }
+
+        return transactionBo;
     }
 
 }

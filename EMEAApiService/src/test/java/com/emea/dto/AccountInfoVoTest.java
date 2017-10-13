@@ -11,9 +11,9 @@ public class AccountInfoVoTest {
     @Test
     public void testAccountInfoVo() {
         AccountInfoVo accountInfoVo = new AccountInfoVo();
-        accountInfoVo.setAccountNumber(1);
-        accountInfoVo.setSortCode(1);
-        assertEquals(1, accountInfoVo.getAccountNumber());
-        assertEquals(1, accountInfoVo.getSortCode());
+        accountInfoVo.setAccountNumber(1L);
+        accountInfoVo.setSortCode(1L);
+        assertEquals(true, accountInfoVo.getAccountNumber().equals(1L));
+        assertEquals(true, accountInfoVo.getSortCode().equals(1L));
     }
 }

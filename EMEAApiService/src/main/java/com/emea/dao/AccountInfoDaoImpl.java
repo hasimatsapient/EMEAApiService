@@ -22,7 +22,7 @@ import com.emea.model.AccountInfoBo;
  */
 @Component
 public class AccountInfoDaoImpl implements AccountInfoDao {
-    private static final Logger LOG = Logger.getLogger(AccountInfoDao.class);
+    private static final Logger LOG = Logger.getLogger(AccountInfoDaoImpl.class);
     private static final String ID = "id";
     private static final String SORT_CODE = "sortCode";
     @PersistenceContext
@@ -56,5 +56,22 @@ public class AccountInfoDaoImpl implements AccountInfoDao {
         LOG.info("Finished executing getAccountInfoByAccountNumberAndSortCode");
         return result;
 
+    }
+
+    @Override
+    public AccountInfoBo createAccountInfo(AccountInfoBo accountInfoBo) {
+        LOG.info("Started executing createAccountInfo");
+        entityManager.persist(accountInfoBo);
+        LOG.info("Finished executing createAccountInfo");
+        
+        return accountInfoBo;
+    }
+
+    @Override
+    public AccountInfoBo updateAccountInfo(AccountInfoBo accountInfoBo) {
+        LOG.info("Started executing updateAccountInfo");
+        accountInfoBo =  entityManager.merge(accountInfoBo);
+        LOG.info("Finished executing updateAccountInfo");
+        return accountInfoBo;
     }
 }

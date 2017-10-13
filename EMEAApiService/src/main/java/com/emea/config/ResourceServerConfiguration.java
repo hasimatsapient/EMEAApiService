@@ -35,9 +35,15 @@ public class ResourceServerConfiguration
                 .csrf()
                 .requireCsrfProtectionMatcher(
                         new AntPathRequestMatcher("/oauth/authorize"))
-                .disable().headers().frameOptions().disable().and()
+                .disable().headers().frameOptions().disable()
+                .and().authorizeRequests()
+                .antMatchers("/emeaapiservice/swagger-ui.html")
+          .permitAll()
+                .and()
                 .authorizeRequests().antMatchers("/emeaapiservice/**")
-                .authenticated();
+                .authenticated()
+                
+                ;
 
     }
 

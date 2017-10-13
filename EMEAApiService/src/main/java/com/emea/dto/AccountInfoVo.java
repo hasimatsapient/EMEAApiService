@@ -4,21 +4,21 @@ import java.util.List;
 
 public class AccountInfoVo {
 
-    transient long accountNumber;
-    transient long sortCode;
+    Long accountNumber;
+    Long sortCode;
     List<TransactionVo> transactions;
 
-    public long getAccountNumber() {
+    public Long getAccountNumber() {
         return accountNumber;
     }
-    public void setAccountNumber(long accountNumber) {
+    public void setAccountNumber(Long accountNumber) {
         this.accountNumber = accountNumber;
     }
 
-    public long getSortCode() {
+    public Long getSortCode() {
         return sortCode;
     }
-    public void setSortCode(long sortCode) {
+    public void setSortCode(Long sortCode) {
         this.sortCode = sortCode;
     }
     public List<TransactionVo> getTransactions() {

@@ -2,7 +2,9 @@ package com.emea.controller;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -17,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.emea.dto.AccountInfoVo;
+import com.emea.dto.TransactionVo;
 import com.emea.exception.ApplicationException;
 import com.emea.util.CommonUtility;
 
@@ -69,6 +73,69 @@ public class AccountInfoControllerIt extends InitDb {
         map.put("accountNumber", "1");
         map.put("sortCode", "122312");
         assertNotNull(accountInfoController.getAccountDetails(map));
+    }
+
+    @Test
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testCreateAccountDetails() throws ApplicationException {
+        List<TransactionVo> transactionVos = new ArrayList<>();
+        assertNotNull(accountInfoController.createAccountDetails(
+                transactionVos, "200013"));
+    }
+
+    // updateAccountDetails
+
+    @Test
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testUpdateAccountDetails() throws ApplicationException {
+        List<TransactionVo> transactionVos = new ArrayList<>();
+        AccountInfoVo accountInfoVo = accountInfoController
+                .createAccountDetails(transactionVos, "200013");
+
+        assertNotNull(accountInfoController.updateAccountDetails(
+                transactionVos, "200013",
+                String.valueOf(accountInfoVo.getAccountNumber())));
+    }
+
+    @Test(expected = ApplicationException.class)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testUpdateAccountDetailsInvalidSortCode()
+            throws ApplicationException {
+        List<TransactionVo> transactionVos = new ArrayList<>();
+        accountInfoController.updateAccountDetails(transactionVos, "20004313",
+                "2");
+    }
+    @Test(expected = ApplicationException.class)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testUpdateAccountDetailsAlphaNumericSortCode()
+            throws ApplicationException {
+        List<TransactionVo> transactionVos = new ArrayList<>();
+        accountInfoController.updateAccountDetails(transactionVos, "fdsf23",
+                "2");
+    }
+
+    @Test(expected = ApplicationException.class)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testUpdateAccountDetailsAlphaNumericAccountNumber()
+            throws ApplicationException {
+        List<TransactionVo> transactionVos = new ArrayList<>();
+        accountInfoController.updateAccountDetails(transactionVos, "200044",
+                "2re");
+    }
+
+    @Test(expected = ApplicationException.class)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testCreateAccountDetailsInvalidSortCode()
+            throws ApplicationException {
+        List<TransactionVo> transactionVos = new ArrayList<>();
+        accountInfoController.createAccountDetails(transactionVos, "2000134");
+    }
+    @Test(expected = ApplicationException.class)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void testCreateAccountDetailsAlphaNumericSortCode()
+            throws ApplicationException {
+        List<TransactionVo> transactionVos = new ArrayList<>();
+        accountInfoController.createAccountDetails(transactionVos, "3cds");
     }
 
     @Test

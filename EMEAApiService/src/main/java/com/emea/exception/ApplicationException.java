@@ -12,4 +12,8 @@ public class ApplicationException extends Exception {
         super(message);
     }
 
+    public ApplicationException(Exception e) {
+        super(e);
+    }
+
 }

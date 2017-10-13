@@ -29,7 +29,7 @@ public class UserDetailsService
         implements
             org.springframework.security.core.userdetails.UserDetailsService {
 
-    private final Logger log = LoggerFactory
+    private final Logger LOG = LoggerFactory
             .getLogger(UserDetailsService.class);
 
     @Autowired
@@ -43,8 +43,8 @@ public class UserDetailsService
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String userName) {
-
-        log.debug("Authenticating {}", userName);
+        LOG.info("Started executing loadUserByUsername");
+        LOG.debug("Authenticating {}", userName);
 
         User userFromDatabase;
         userFromDatabase = userDao.findByUsername(userName);
@@ -63,7 +63,7 @@ public class UserDetailsService
                     authority.getName());
             grantedAuthorities.add(grantedAuthority);
         }
-
+        LOG.info("Finished executing loadUserByUsername");
         return new org.springframework.security.core.userdetails.User(
                 userFromDatabase.getUsername(), userFromDatabase.getPassword(),
                 grantedAuthorities);

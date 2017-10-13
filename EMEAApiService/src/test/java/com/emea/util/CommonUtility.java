@@ -90,6 +90,14 @@ public class CommonUtility {
         q = entityManager
                 .createNativeQuery(" CREATE TABLE ACCOUNT  ( ID NUMBER(19,0) ,SORT_CODE NUMBER(19,0),  PRIMARY KEY (ID) ) ");
         q.executeUpdate();
+        
+        q = entityManager
+                .createNativeQuery(" CREATE TABLE SORT_CODE  (SORT_CODE NUMBER(19,0)) ");
+        q.executeUpdate();
+        
+        q = entityManager
+                .createNativeQuery("insert into SORT_CODE values (200013)");
+        q.executeUpdate();
 
         q = entityManager
                 .createNativeQuery(" CREATE SEQUENCE account_info_seq START WITH 1 CACHE 1000 ");
@@ -142,6 +150,24 @@ public class CommonUtility {
         q = entityManager
                 .createNativeQuery("insert into transaction values (transaction_seq.currVal,'as','as',{ts '2012-09-17 18:47:52.69'},'c',123.20,'we','we','we','ew','we',{ts '2012-09-17 18:47:52.69'},'ew','er',234.29,'ewr','wed','we','EarMark',account_info_seq.currVal)");
         q.executeUpdate();
+        
+               
+       /* q = entityManager
+                .createNativeQuery(" CREATE TABLE SORTCODE  ( ID NUMBER(19,0) ,SORTCODE NUMBER(19,0),  PRIMARY KEY (ID) ) ");
+        q.executeUpdate();
+        
+        q = entityManager
+                .createNativeQuery("insert into SORTCODE values (1,122312)");
+        q.executeUpdate();*/
+        
+        /*q = entityManager
+                .createNativeQuery("CREATE TABLE SORT_CODE_A ( SORT_CODE_b NUMBER(19,0), PRIMARY KEY (SORT_CODE_b))");
+        q.executeUpdate();
+        q = entityManager
+                .createNativeQuery("insert into SORT_CODE_A values (200013)");
+        q.executeUpdate();*/
+        
+        
     }
 
     public static Object prepareDataWithSql(EntityManager entityManager,

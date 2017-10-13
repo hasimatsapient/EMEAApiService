@@ -21,4 +21,20 @@ public interface AccountInfoDao {
      */
     public AccountInfoBo getAccountInfoByAccountNumberAndSortCode(
             long accountNumber, long sortCode);
+
+    /**
+     * Method to create account information based on inputs.
+     * 
+     * @param accountNumber
+     * @param sortCode
+     * @return
+     */
+    public AccountInfoBo createAccountInfo(AccountInfoBo accountInfoBo);
+
+    /**
+     * Method to update account information based on inputs.
+     * @param accountInfoBo
+     * @return
+     */
+    public AccountInfoBo updateAccountInfo(AccountInfoBo accountInfoBo);
 }

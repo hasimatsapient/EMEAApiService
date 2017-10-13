@@ -40,6 +40,7 @@ public class ClientDetailsService
     @Override
     public ClientDetails loadClientByClientId(String clientId)
             throws ClientRegistrationException {
+        LOG.info("Started executing loadClientByClientId");
         UserDetails user = userDetailsService.loadUserByUsername(clientId);
         BaseClientDetails details = new BaseClientDetails();
         details.setClientId(clientId);
@@ -61,7 +62,7 @@ public class ClientDetailsService
         }
 
         details.setRefreshTokenValiditySeconds(tokenValidityInSeconds);
-
+        LOG.info("Finished executing loadClientByClientId");
         return details;
     }
 

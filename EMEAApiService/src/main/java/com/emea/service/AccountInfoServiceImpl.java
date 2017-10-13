@@ -1,11 +1,14 @@
 package com.emea.service;
 
+import javax.transaction.Transactional;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.emea.dao.AccountInfoDao;
 import com.emea.dto.AccountInfoVo;
+import com.emea.exception.ApplicationException;
 import com.emea.model.AccountInfoBo;
 import com.emea.util.CommonUtil;
 
@@ -21,6 +24,9 @@ public class AccountInfoServiceImpl implements AccountInfoService {
             .getLogger(AccountInfoServiceImpl.class);
     @Autowired
     AccountInfoDao accountInfoDao;
+
+    @Autowired
+    ValidationService validationService;
 
     /**
      * Method to get account information.
@@ -39,6 +45,42 @@ public class AccountInfoServiceImpl implements AccountInfoService {
                 .convertAccountInfoBoToVo(accountInfoBo);
         LOG.info("Finished executing getAccountDetails");
         return accountInfoVo;
+    }
+
+    /**
+     * Method to create or update account information. (non-Javadoc)
+     * 
+     * @throws ApplicationException
+     * @see com.emea.service.AccountInfoService#createOrUpdateAccountDetails(com.emea.dto.AccountInfoVo)
+     */
+    @Override
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public AccountInfoVo createOrUpdateAccountDetails(
+            AccountInfoVo accountInfoVo) throws ApplicationException {
+        LOG.info("Started executing createOrUpdateAccountDetails");
+
+        AccountInfoBo accountInfoBo = null;
+        boolean createFlow = accountInfoVo.getAccountNumber() == null;
+        accountInfoBo = CommonUtil.convertAccountInfoVoToBo(accountInfoVo,
+                createFlow);
+
+        boolean flag = validationService.validate(accountInfoVo);
+        if (!flag) {
+            throw new ApplicationException(
+                    "Invalid account number or sort code");
+        }
+
+        AccountInfoBo accountInfoBoResult;
+        if (createFlow) {
+            accountInfoBoResult = accountInfoDao
+                    .createAccountInfo(accountInfoBo);
+        } else {
+            accountInfoBoResult = accountInfoDao
+                    .updateAccountInfo(accountInfoBo);
+        }
+
+        LOG.info("Finished executing createOrUpdateAccountDetails");
+        return CommonUtil.convertAccountInfoBoToVo(accountInfoBoResult);
     }
 
 }
