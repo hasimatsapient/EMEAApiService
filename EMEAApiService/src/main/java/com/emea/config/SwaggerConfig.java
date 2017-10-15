@@ -53,9 +53,12 @@ public class SwaggerConfig {
         list.add(new ResponseMessageBuilder().code(412).message("Validation failed")
                 .responseModel(new ModelRef("Result")).build());
 
-        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any()).build().securitySchemes(Collections.singletonList(securitySchema()))
-                .securityContexts(Collections.singletonList(securityContext())).pathMapping("/")
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                .apis(RequestHandlerSelectors.any())
+               // .paths(PathSelectors.any())
+                .paths(PathSelectors.regex("/emeaapiservice.*"))
+                .build().securitySchemes(Collections.singletonList(securitySchema()))
+                //.securityContexts(Collections.singletonList(securityContext())).pathMapping("/")
                 .useDefaultResponseMessages(false).apiInfo(apiInfo()).globalResponseMessage(RequestMethod.GET, list)
                 .globalResponseMessage(RequestMethod.POST, list)
                  .globalResponseMessage(RequestMethod.PUT, list);
