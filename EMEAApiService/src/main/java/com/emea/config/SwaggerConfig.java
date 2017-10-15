@@ -81,21 +81,6 @@ public class SwaggerConfig {
 
     }
 
-    private SecurityContext securityContext() {
-        return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.ant("/user/**"))
-                .build();
-    }
-
-    private List<SecurityReference> defaultAuth() {
-
-        final AuthorizationScope[] authorizationScopes = new AuthorizationScope[3];
-        authorizationScopes[0] = new AuthorizationScope("read", "read all");
-        authorizationScopes[1] = new AuthorizationScope("trust", "trust all");
-        authorizationScopes[2] = new AuthorizationScope("write", "write all");
-
-        return Collections.singletonList(new SecurityReference("oauth2schema", authorizationScopes));
-    }
-
     @Bean
     public SecurityConfiguration securityInfo() {
         return new SecurityConfiguration(clientId, clientSecret, "", "", "", ApiKeyVehicle.HEADER, "", " ");
