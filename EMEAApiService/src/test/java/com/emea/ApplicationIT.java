@@ -90,7 +90,7 @@ public class ApplicationIT extends InitDb {
         ;
 
     }
-
+    
     @After
     public void tearDown() {
         shutDownDB();

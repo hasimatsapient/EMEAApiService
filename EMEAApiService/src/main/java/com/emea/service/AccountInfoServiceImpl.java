@@ -72,12 +72,14 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
         AccountInfoBo accountInfoBoResult;
         if (createFlow) {
-            accountInfoBoResult = accountInfoDao
+             accountInfoDao
                     .createAccountInfo(accountInfoBo);
         } else {
-            accountInfoBoResult = accountInfoDao
+             accountInfoDao
                     .updateAccountInfo(accountInfoBo);
         }
+        accountInfoBoResult = accountInfoDao
+                .getAccountInfoByAccountNumberAndSortCode(accountInfoBo.getId(), accountInfoBo.getSortCode());
 
         LOG.info("Finished executing createOrUpdateAccountDetails");
         return CommonUtil.convertAccountInfoBoToVo(accountInfoBoResult);
