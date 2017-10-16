@@ -28,7 +28,7 @@ public class AccountInfoDaoImpl implements AccountInfoDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    /*
+    /**
      * Method to get account information based on account number and sortcode
      * (non-Javadoc)
      * 
@@ -48,10 +48,10 @@ public class AccountInfoDaoImpl implements AccountInfoDao {
         cq.where(cb.and(cb.equal(accountInfo.get(ID), accountNumber),
                 cb.equal(accountInfo.get(SORT_CODE), sortCode)));
         TypedQuery<AccountInfoBo> q = entityManager.createQuery(cq);
-        List<AccountInfoBo> allUsers = q.getResultList();
+        List<AccountInfoBo> accountInfoBos = q.getResultList();
 
-        if (allUsers != null && allUsers.size() > 0) {
-            result = allUsers.get(0);
+        if (accountInfoBos != null && accountInfoBos.size() > 0) {
+            result = accountInfoBos.get(0);
         }
         LOG.info("Finished executing getAccountInfoByAccountNumberAndSortCode");
         return result;

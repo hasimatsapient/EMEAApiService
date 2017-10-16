@@ -44,10 +44,10 @@ public class SortCodeDaoImpl implements SortCodeDao{
         cq.select(sortCodeBo);
         cq.where(cb.equal(sortCodeBo.get(SORT_CODE), sortCode));
         TypedQuery<SortCodeBo> q = entityManager.createQuery(cq);
-        List<SortCodeBo> allUsers = q.getResultList();
+        List<SortCodeBo> sortCodeBos = q.getResultList();
 
-        if (allUsers != null && allUsers.size() > 0) {
-            result = allUsers.get(0);
+        if (sortCodeBos != null && sortCodeBos.size() > 0) {
+            result = sortCodeBos.get(0);
         }
         LOG.info("Finished executing getSortCode");
         return result;

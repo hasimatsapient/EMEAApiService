@@ -1,7 +1,11 @@
 package com.emea.util;
 
+import java.lang.reflect.Field;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import com.emea.service.AccountInfoServiceImpl;
 
 public class CommonUtility {
 
@@ -180,6 +184,22 @@ public class CommonUtility {
             return null;
         }
 
+    }
+    
+    public static void setPrivateField(Class<?> clazz, Object obj, String fieldName, Object fieldValue){
+        //Class<?> clazz = ((AccountInfoServiceImpl) accountInfoService).getClass();
+        // while (clazz != null) {
+             try {
+                 Field field = clazz.getDeclaredField(fieldName);
+                 field.setAccessible(true);
+                 field.set(obj, fieldValue);
+                
+             } catch (NoSuchFieldException e) {
+                 clazz = clazz.getSuperclass();
+             } catch (Exception e) {
+                 throw new IllegalStateException(e);
+             }
+        // }
     }
 
 }

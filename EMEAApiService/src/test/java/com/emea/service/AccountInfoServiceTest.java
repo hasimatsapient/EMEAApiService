@@ -1,131 +1,114 @@
 package com.emea.service;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import static org.mockito.Matchers.anyLong;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
 
-import com.emea.controller.InitDb;
+import com.emea.dao.AccountInfoDao;
 import com.emea.dto.AccountInfoVo;
 import com.emea.exception.ApplicationException;
+import com.emea.model.AccountInfoBo;
 import com.emea.util.CommonUtil;
 import com.emea.util.CommonUtility;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:conf/test-app-config.xml"})
-public class AccountInfoServiceTest extends InitDb {
-
-    @Autowired
+@RunWith(MockitoJUnitRunner.class)
+public class AccountInfoServiceTest {
     private AccountInfoService accountInfoService;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Mock
+    AccountInfoDao accountInfoDao;
+    @Mock
+    ValidationService validationService;
+    @Mock
+    AccountInfoBo accountInfoBo ;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        CommonUtility.prepareData(entityManager);
-
+        accountInfoService = new AccountInfoServiceImpl();
+        CommonUtility.setPrivateField(((AccountInfoServiceImpl) accountInfoService).getClass(), accountInfoService, "accountInfoDao", accountInfoDao);
+        CommonUtility.setPrivateField(((AccountInfoServiceImpl) accountInfoService).getClass(), accountInfoService, "validationService", validationService);
+        
+        
     }
 
     @Test
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void testGetAccountDetailsWithData() {
+
+        AccountInfoBo accountInfoBo = new AccountInfoBo();
+        accountInfoBo.setId(1L);
+        accountInfoBo.setSortCode(122312);
+        Mockito.when(
+                accountInfoDao.getAccountInfoByAccountNumberAndSortCode(
+                        anyLong(), anyLong())).thenReturn(accountInfoBo);
         AccountInfoVo accountInfoVo = accountInfoService.getAccountDetails(1L,
                 122312);
-
         assertNotNull(accountInfoVo);
-    }
-    
-    @Test
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void testCreateOrUpdateAccountDetails() throws ApplicationException {
-        AccountInfoVo accountInfoVoINput = new AccountInfoVo();
-        accountInfoVoINput.setAccountNumber(null);
-        accountInfoVoINput.setSortCode(200013L);
-        
-    //  CommonUtility.prepareDataWithSql(entityManager, "insert into SORT_CODE values (200013)", false);
-        AccountInfoVo accountInfoVo = accountInfoService.createOrUpdateAccountDetails(accountInfoVoINput);
-
-        assertNotNull(accountInfoVo);
-    }
-   @Test(expected=ApplicationException.class)
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void testCreateOrUpdateAccountDetailsInvalidData() throws ApplicationException {
-        AccountInfoVo accountInfoVoINput = new AccountInfoVo();
-        accountInfoVoINput.setAccountNumber(3L);
-        accountInfoVoINput.setSortCode(200013L);
-        
-    //  CommonUtility.prepareDataWithSql(entityManager, "insert into SORT_CODE values (200013)", false);
-        AccountInfoVo accountInfoVo = accountInfoService.createOrUpdateAccountDetails(accountInfoVoINput);
-
-       // assertNotNull(accountInfoVo);
-    }
-    
-    @Test(expected=ApplicationException.class)
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void testCreateOrUpdateAccountDetailsWithNullSortCode() throws ApplicationException {
-        AccountInfoVo accountInfoVoINput = new AccountInfoVo();
-        accountInfoVoINput.setAccountNumber(3L);
-        accountInfoVoINput.setSortCode(null);
-        AccountInfoVo accountInfoVo = accountInfoService.createOrUpdateAccountDetails(accountInfoVoINput);
-
-        assertNotNull(accountInfoVo);
-        
         
     }
     
     @Test(expected=ApplicationException.class)
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void testCreateOrUpdateAccountDetailsWithException() throws ApplicationException {
-        AccountInfoVo accountInfoVoINput = new AccountInfoVo();
-        accountInfoVoINput.setAccountNumber(null);
-        accountInfoVoINput.setSortCode(null);
-        AccountInfoVo accountInfoVo = accountInfoService.createOrUpdateAccountDetails(accountInfoVoINput);
+    public void testCreateAccountDetailsWithInvalidData() throws ApplicationException {
 
-        assertNotNull(accountInfoVo);
+       AccountInfoVo accountInfoVoInput = Mockito.mock(AccountInfoVo.class);
         
+        Mockito.when(
+                accountInfoDao.createAccountInfo(accountInfoBo)).thenReturn(accountInfoBo);
+        AccountInfoVo accountInfoVo = accountInfoService.createOrUpdateAccountDetails(accountInfoVoInput);
+        assertNotNull(accountInfoVo);
         
     }
     
     @Test
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void testCreateOrUpdateAccountDetailsWithUpdate() throws ApplicationException {
-        AccountInfoVo accountInfoVoINput = new AccountInfoVo();
-        accountInfoVoINput.setAccountNumber(null);
-        accountInfoVoINput.setSortCode(200013L);
-        AccountInfoVo accountInfoVo = accountInfoService.createOrUpdateAccountDetails(accountInfoVoINput);
+    public void testUpdateAccountDetailsWithvalidData() throws ApplicationException {
 
+       AccountInfoVo accountInfoVoInput = new AccountInfoVo();
+        accountInfoVoInput.setAccountNumber(1L);
+        accountInfoVoInput.setSortCode(122312L);
+        Mockito.when(
+                validationService.validate(Matchers.any(AccountInfoVo.class))).thenReturn(Boolean.TRUE);
+        Mockito.when(
+                accountInfoDao.getAccountInfoByAccountNumberAndSortCode(
+                        anyLong(), anyLong())).thenReturn(accountInfoBo);  
         
-        AccountInfoVo accountInfoVoINput1 = new AccountInfoVo();
-        accountInfoVoINput1.setAccountNumber(accountInfoVo.getAccountNumber());
-        accountInfoVoINput1.setSortCode(200013L);
-        AccountInfoVo accountInfoVo1 = accountInfoService.createOrUpdateAccountDetails(accountInfoVoINput1);
-
-        
-        
+        Mockito.when(
+                accountInfoDao.updateAccountInfo(accountInfoBo)).thenReturn(accountInfoBo);
+        AccountInfoVo accountInfoVo = accountInfoService.createOrUpdateAccountDetails(accountInfoVoInput);
         assertNotNull(accountInfoVo);
-        
         
     }
     
-    @Test
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void testGetAccountDetailsWithOutData() {
-        AccountInfoVo accountInfoVo = accountInfoService.getAccountDetails(2L,
-                122312);
+   // @Test
+    public void testCreateAccountDetailsWithvalidData() throws ApplicationException {
 
-        assertNull(accountInfoVo);
+       AccountInfoVo accountInfoVoInput = new AccountInfoVo();
+       // accountInfoVoInput.setAccountNumber(1L);
+        accountInfoVoInput.setSortCode(122312L);
+        Mockito.when(
+                validationService.validate(Matchers.any(AccountInfoVo.class))).thenReturn(Boolean.TRUE);
+        Mockito.when(
+                accountInfoDao.getAccountInfoByAccountNumberAndSortCode(
+                        anyLong(), anyLong())).thenReturn(accountInfoBo); 
+        
+        
+       
+        AccountInfoBo accountInfoBo = new AccountInfoBo();
+        accountInfoBo.setId(1L);
+        accountInfoBo.setSortCode(122312L);
+        Mockito.when(
+                accountInfoDao.createAccountInfo(Matchers.any(AccountInfoBo.class))).thenReturn(accountInfoBo);
+        PowerMockito.when(CommonUtil.convertAccountInfoVoToBo(Matchers.any(AccountInfoVo.class), Matchers.any(Boolean.class))).thenReturn(accountInfoBo);
+        AccountInfoVo accountInfoVo = accountInfoService.createOrUpdateAccountDetails(accountInfoVoInput);
+        assertNotNull(accountInfoVo);
+        
     }
-
 }
